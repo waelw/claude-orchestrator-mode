@@ -1,0 +1,18 @@
+{
+  "name": "orchestrator-mode-marketplace",
+  "description": "Marketplace for the orchestrator-mode plugin.",
+  "owner": {
+    "name": "waelw",
+    "url": "https://github.com/waelw"
+  },
+  "plugins": [
+    {
+      "name": "orchestrator-mode",
+      "description": "Always-on operating mode: Claude acts as an orchestrator and senior team lead, delegating isolated work to subagents and staying responsive to the user.",
+      "source": {
+        "source": "github",
+        "repo": "waelw/claude-orchestrator-mode"
+      }
+    }
+  ]
+}
