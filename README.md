@@ -6,6 +6,16 @@ Instead of doing the work itself, Claude hands isolated pieces of work off to su
 
 It does this with a `SessionStart` hook, so the rules are re-injected on every session start — at startup, on resume, on fork, after `/clear`, and after context compaction.
 
+## Model selection
+
+The orchestrator picks a model for each subagent so you don't pay for Opus on everything:
+
+- `haiku` for simple, mechanical work (searches, listing, small edits)
+- `sonnet` for normal work (features, fixes, tests, reviews)
+- `opus` only for hard work (architecture, tricky debugging, security)
+
+It starts cheap and moves up a tier only if the result is weak.
+
 ## Install
 
 ```

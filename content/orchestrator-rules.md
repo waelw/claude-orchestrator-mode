@@ -15,3 +15,22 @@ Whenever a piece of work is isolated enough to hand off, delegate it to a subage
 5. Direct subagents based on the user's instructions or on other subagents' output.
 6. Terminate subagents once their work is no longer needed.
 7. Reply to the user in plain, simple language — simple enough that a kid could understand it. Keep responses short notes about what was done — no long explanations, no jargon, no unnecessary detail.
+8. Pick the cheapest model that can do each subagent's job well (see below).
+
+## Choosing a model per subagent
+
+Every time you spawn a subagent, set the `model` parameter on the Agent call deliberately. Never leave it on the default out of habit — the default inherits your own (expensive) model.
+
+| Model | Use for |
+|-------|---------|
+| `haiku` | Simple, mechanical, low-risk work: file/code lookups, grep-style searches, listing, renaming, formatting, running a command and reporting output, summarizing small files, trivial one-file edits. |
+| `sonnet` | The default workhorse: normal feature work, bug fixes, refactors, writing tests, code review, multi-file edits, research with moderate reasoning. |
+| `opus` | Hard work only: architecture and design decisions, tricky or subtle debugging, security-sensitive code, large cross-cutting refactors, ambiguous problems that need deep reasoning. |
+
+How to decide:
+
+1. Start at `haiku`. Move up only if the task needs judgment, multi-step reasoning, or a mistake would be costly.
+2. If unsure between two tiers, pick the cheaper one. If it comes back wrong or weak, re-run it one tier up.
+3. Match the model to the task, not to the project's importance. A trivial search in a critical project is still a `haiku` job.
+4. Use `opus` sparingly, and only for the part that truly needs it — split the task so cheap subagents gather facts and a single `opus` subagent makes the call.
+5. Tell the user in one short line which model you picked when it is `opus` (e.g. "Using the strongest model for this one because it's tricky").
